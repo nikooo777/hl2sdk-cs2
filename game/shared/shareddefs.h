@@ -542,6 +542,23 @@ struct ModelScale
 
 #include "soundflags.h"
 
+typedef uint32 SoundEventGuid_t;
+
+struct SndOpEventGuid_t
+{
+	SoundEventGuid_t m_nGuid;
+	uint32 m_hStackHash;
+};
+
+#pragma pack(push, 1)
+struct StartSoundEventInfo
+{
+	SndOpEventGuid_t m_nSndOpEventGuid;
+	int32 m_nFlags;
+	uint64 m_nRecipients;
+};
+#pragma pack(pop)
+
 //-----------------------------------------------------------------------------
 // Purpose: Aggregates and sets default parameters for EmitSound function calls
 //-----------------------------------------------------------------------------
