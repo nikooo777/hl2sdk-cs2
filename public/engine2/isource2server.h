@@ -43,6 +43,7 @@ class CUtlBuffer;
 class CSteamID;
 class ServerClass;
 class CNavData;
+class IEconItemSystem;
 class INavListener;
 class IToolGameSimulationAPI;
 class CCreateGameServerLoadInfo;
@@ -205,7 +206,7 @@ public:
 	virtual void			PreFatalShutdown( void ) const = 0;
 	virtual void			UpdateWhenNotInGame( float flFrameTime ) = 0;
 
-	virtual void			*GetEconItemSystem( void ) = 0;
+	virtual IEconItemSystem	*GetEconItemSystem( void ) = 0;
 
 	virtual void			ServerConVarChanged( const char *pVarName, const char *pValue ) = 0;
 
