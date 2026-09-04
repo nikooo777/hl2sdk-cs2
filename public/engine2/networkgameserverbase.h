@@ -93,7 +93,7 @@ public:
 	virtual const char *GetHostName() = 0;
 
 	// Sums up across all the connected players.
-	virtual void	GetNetStats( float &inflow, float &outflow ) = 0;
+	virtual void	GetNetStats( float &avgIn, float &avgOut ) = 0;
 
 	virtual void	FillKV3ServerInfo( KeyValues3 *out ) = 0;
 
