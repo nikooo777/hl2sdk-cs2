@@ -1110,6 +1110,9 @@ template< class CValueAllocator >
 template< typename T >
 inline bool CVariantBase<CValueAllocator>::AssignTo( CVariantBase<T> *pDest ) const
 {
+	if ( static_cast<const void *>( this ) == static_cast<const void *>( pDest ) )
+		return true;
+
 	switch(m_type)
 	{
 		case FIELD_VECTOR:		pDest->CopyData( *m_pVector, true ); return true;
@@ -1121,6 +1124,7 @@ inline bool CVariantBase<CValueAllocator>::AssignTo( CVariantBase<T> *pDest ) co
 		case FIELD_CSTRING:		pDest->CopyData( m_pszString, true ); return true;
 		default:
 		{
+			pDest->Free();
 			pDest->m_type = m_type;
 			pDest->m_pData = m_pData;
 			return true;
