@@ -56,6 +56,7 @@ template <typename T>
 class CNetMessagePB;
 class INetChannel;
 class CCLCMsg_Move;
+class CCLCMsg_VoiceData;
 class CCLCMsg_Diagnostic;
 class IHLTVDirector;
 struct NetMessageInfo_t;
@@ -433,7 +434,7 @@ public:
 	virtual void			GetBugReportInfo( CBufferString &buf ) = 0;
 
 	// TERROR: A player sent a voice packet
-	virtual void			ClientVoice( CPlayerSlot slot ) = 0;
+	virtual void			ClientVoice( CPlayerSlot slot, const CNetMessagePB<CCLCMsg_VoiceData> &msg ) = 0;
 	
 	// The client has submitted a keyvalues command
 	virtual void			ClientCommandKeyValues( CPlayerSlot slot, KeyValues *pKeyValues ) = 0;
