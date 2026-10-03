@@ -649,22 +649,40 @@ struct ConVarValueInfo_t
 	template <typename T>
 	void SetDefaultValue( const T &value )
 	{
+		CVValue_t copy( value );
+		if ( TranslateConVarType<T>() == EConVarType_String )
+		{
+			CUtlString previous;
+			V_memcpy( &previous, m_defaultValue, sizeof( previous ) );
+		}
+		V_memcpy( m_defaultValue, &copy, sizeof( T ) );
 		m_bHasDefault = true;
-		*reinterpret_cast<T *>(m_defaultValue) = value;
 	}
 
 	template <typename T>
 	void SetMinValue( const T &min )
 	{
+		CVValue_t copy( min );
+		if ( TranslateConVarType<T>() == EConVarType_String )
+		{
+			CUtlString previous;
+			V_memcpy( &previous, m_minValue, sizeof( previous ) );
+		}
+		V_memcpy( m_minValue, &copy, sizeof( T ) );
 		m_bHasMin = true;
-		*reinterpret_cast<T *>(m_minValue) = min;
 	}
 
 	template <typename T>
 	void SetMaxValue( const T &max )
 	{
+		CVValue_t copy( max );
+		if ( TranslateConVarType<T>() == EConVarType_String )
+		{
+			CUtlString previous;
+			V_memcpy( &previous, m_maxValue, sizeof( previous ) );
+		}
+		V_memcpy( m_maxValue, &copy, sizeof( T ) );
 		m_bHasMax = true;
-		*reinterpret_cast<T *>(m_maxValue) = max;
 	}
 
 	template <typename T>
