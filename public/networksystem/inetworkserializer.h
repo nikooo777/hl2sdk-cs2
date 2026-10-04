@@ -21,9 +21,10 @@
 
 class CNetMessage;
 class CNetworkSerializerCodeGenDatabase;
-class CCheckTransmitInfo;
 class CEntityInstance;
 class CNetworkSerializerClassInfo;
+struct NetworkRecipientsFilter_t;
+struct UserGroupProxy_t;
 struct NetMessageInfo_t;
 
 enum NetworkValidationMode_t
@@ -55,24 +56,6 @@ public:
 	virtual bool Serialize( bf_write &pBuf, const CNetMessage *pData ) = 0;
 	// Calls to INetworkMessages::UnserializeMessageInternal
 	virtual bool Unserialize( bf_read &pBuf, CNetMessage *pData ) = 0;
-};
-
-struct NetworkRecipientsFilter_t
-{
-	class CFilterOwner {};
-	using FilterCb = void (CFilterOwner::*)(CCheckTransmitInfo *pInfo, CPlayerBitVec &player_mask);
-
-	enum FilterOwnerType : int8
-	{
-		Filter_Other = 1,
-		Filter_Entity = 2,
-		Filter_FieldOwner = 3
-	};
-
-	CFilterOwner *m_FilterOwner;
-	FilterCb m_FilterFn;
-	const char *m_FilterName;
-	FilterOwnerType m_FitlerOwnerType;
 };
 
 struct NetworkChangePointerCallback_t
@@ -125,15 +108,6 @@ struct SerializedFieldTypeMapping_t
 {
 	const char *m_FieldName;
 	const char *m_FieldType;
-};
-
-struct UserGroupProxy_t
-{
-	const char *m_ClassName;
-	const char *m_UserGroup;
-	NetworkRecipientsFilter_t::CFilterOwner *m_ProxyOwner;
-	NetworkRecipientsFilter_t::FilterCb m_ProxyFn;
-	NetworkRecipientsFilter_t::FilterOwnerType m_ProxyOwnerType;
 };
 
 enum NetworkReplayCompatFieldFlags_t : uint8
