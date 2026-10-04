@@ -4,12 +4,6 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-// Nasty hack to redefine gcc's offsetof which doesn't like GET_OUTER macro
-#ifdef COMPILER_GCC
-#undef offsetof
-#define offsetof(s,m)	(size_t)&(((s *)0)->m)
-#endif
-
 // Doubles at least once from no less than min_count until requested_count fits, or gives max_count
 static int CalcNewKV3Capacity( int old_count, int requested_count, int min_count, int max_count )
 {
@@ -401,7 +395,9 @@ CKeyValues3Cluster* KeyValues3::GetCluster() const
 	if ( m_bContextIndependent )
 		return nullptr;
 
-	return GET_OUTER( CKeyValues3Cluster, m_Values[ m_nClusterElement ] );
+	return reinterpret_cast<CKeyValues3Cluster *>( reinterpret_cast<uintp>( this )
+		- offsetof( CKeyValues3Cluster, m_Values )
+		- m_nClusterElement * sizeof( CKeyValues3Cluster::Node ) );
 }
 
 CKV3Arena* KeyValues3::GetContext() const
@@ -1539,7 +1535,9 @@ CKeyValues3ArrayCluster* CKeyValues3Array::GetCluster() const
 	if ( m_nClusterElement == -1 )
 		return nullptr;
 
-	return GET_OUTER( CKeyValues3ArrayCluster, m_Values[ m_nClusterElement ] );
+	return reinterpret_cast<CKeyValues3ArrayCluster *>( reinterpret_cast<uintp>( this )
+		- offsetof( CKeyValues3ArrayCluster, m_Values )
+		- m_nClusterElement * sizeof( CKeyValues3ArrayCluster::Node ) );
 }
 
 CKV3Arena* CKeyValues3Array::GetContext() const
@@ -1731,7 +1729,9 @@ CKeyValues3TableCluster* CKeyValues3Table::GetCluster() const
 	if ( m_nClusterElement == -1 )
 		return nullptr;
 
-	return GET_OUTER( CKeyValues3TableCluster, m_Values[ m_nClusterElement ] );
+	return reinterpret_cast<CKeyValues3TableCluster *>( reinterpret_cast<uintp>( this )
+		- offsetof( CKeyValues3TableCluster, m_Values )
+		- m_nClusterElement * sizeof( CKeyValues3TableCluster::Node ) );
 }
 
 CKV3Arena* CKeyValues3Table::GetContext() const
