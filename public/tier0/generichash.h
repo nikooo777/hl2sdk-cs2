@@ -410,7 +410,10 @@ inline uint32 MurmurHash2( const void *key, int len, uint32 seed )
 		}
 		else
 		{
-			k = LittleDWord( *(uint32 *)data );
+			k = static_cast<uint32>( data[0] ) |
+				(static_cast<uint32>( data[1] ) << 8) |
+				(static_cast<uint32>( data[2] ) << 16) |
+				(static_cast<uint32>( data[3] ) << 24);
 		}
 
 		k *= m;
