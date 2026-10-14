@@ -30,6 +30,14 @@ class ISource2WorldSession;
 class ISceneView;
 class IPrerequisite;
 
+class CBufferString;
+
+abstract_class IUGCAddonPathResolver
+{
+public:
+	virtual bool ResolveUGCAddonPath( const char *pszAddonName, CBufferString &path ) = 0;
+};
+
 DECLARE_POINTER_HANDLE(HSceneViewRenderTarget);
 
 struct ActiveLoop_t
